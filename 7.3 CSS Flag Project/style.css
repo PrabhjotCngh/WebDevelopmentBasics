@@ -1,0 +1,36 @@
+.flag {
+    background-color: red;
+    width: 900px;
+    height: 600px;
+    position: relative;
+  }
+
+  .flag > div {
+    width: 100%;
+    height: 300px;
+    background-color: blue;
+    position: absolute;
+    top: 150px;
+  }
+
+  .flag > div > div {
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    top: 50px;
+    left: 350px;
+    border-radius: 50%;
+  }
+
+  p {
+    font-size: 5rem;
+    color: white;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .flag > div div p {
+    color: black;
+  }
