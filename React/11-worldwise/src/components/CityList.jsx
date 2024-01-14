@@ -3,13 +3,16 @@ import Spinner from "./Spinner";
 import Message from "./Message";
 import CityItem from "./CityItem";
 import PropTypes from "prop-types";
+import { useCities } from "../contexts/CitiesContext";
 
 CityList.propTypes = {
   cities: PropTypes.array,
   isLoading: PropTypes.bool,
 };
 
-function CityList({ cities, isLoading }) {
+function CityList() {
+  const { cities, isLoading } = useCities();
+
   if (isLoading) return <Spinner />;
   if (!cities.length)
     return (
