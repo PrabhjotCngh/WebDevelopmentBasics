@@ -17,7 +17,8 @@ import { Toaster } from "react-hot-toast";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000,
+      // staleTime: 60 * 1000,
+      staleTime: 0,
     },
   },
 });
@@ -44,6 +45,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
+
       <Toaster
         position="top-center"
         gutter={12}
