@@ -104,7 +104,7 @@ function Row({ children }) {
 
 Body.propTypes = {
   data: PropTypes.array,
-  render: PropTypes.element,
+  render: PropTypes.func,
 };
 
 function Body({ data, render }) {

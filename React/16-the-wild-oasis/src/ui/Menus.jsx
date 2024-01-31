@@ -89,7 +89,7 @@ function Menus({ children }) {
 }
 
 Toggle.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
 };
 
 function Toggle({ id }) {
