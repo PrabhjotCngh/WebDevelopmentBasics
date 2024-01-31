@@ -38,7 +38,7 @@ const FilterButton = styled.button`
 
 Filter.propTypes = {
   filterField: PropTypes.string,
-  options: PropTypes.object,
+  options: PropTypes.array,
 };
 
 function Filter({ filterField, options }) {
