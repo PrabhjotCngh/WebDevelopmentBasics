@@ -1,3 +1,6 @@
+const weatherAPIKey = "f76693de5c51ceb886c717bf7cb2d979";
+const weatherAPIUrl = `https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API Key}&units=metric`;
+
 let galleryImages = [
   { src: "/assets/gallery/image1.jpg", alt: "Thumbnail Image 1" },
   { src: "/assets/gallery/image2.jpg", alt: "Thumbnail Image 2" },
@@ -76,14 +79,11 @@ function celsiusToFahr(temperature) {
   return (temperature * 9) / 5 + 32;
 }
 
-function weatherHandler() {
-  const weatherCondition = "sunny";
-  const userLocation = "Mississauga";
-  let temperature = 24.322;
-  let celsiusText = `The weather is ${weatherCondition} in ${userLocation} and it's ${temperature.toFixed(
+function weatherHandler(condition, location, temperature) {
+  let celsiusText = `The weather is ${condition} in ${location} and it's ${temperature.toFixed(
     1
   )}°C outside.`;
-  let fahrText = `The weather is ${weatherCondition} in ${userLocation} and it's ${celsiusToFahr(
+  let fahrText = `The weather is ${condition} in ${location} and it's ${celsiusToFahr(
     temperature
   ).toFixed(1)}°F outside.`;
 
@@ -98,6 +98,31 @@ function weatherHandler() {
         document.querySelector("p#weather").innerHTML = fahrText;
       }
     });
+}
+
+function getWeatherForCurrentLocation() {
+  navigator.geolocation.getCurrentPosition((currentPosition) => {
+    let latitude = currentPosition.latitude;
+    let longitude = currentPosition.longitude;
+    let url = weatherAPIUrl
+      .replace("{lat}", latitude)
+      .replace("{lon}", longitude)
+      .replace("{API Key}", weatherAPIKey);
+    //"https://opentdb.com/api.php?amount=1"
+    fetch(url)
+      .then((response) =>
+        response.json().then((data) => {
+          const condition = data.weather[0].description;
+          const location = data.name;
+          const temperature = data.main.temp;
+          weatherHandler(condition, location, temperature);
+        })
+      )
+      .catch((err) => {
+        document.querySelector("p#weather").innerHTML =
+          "Unable to get the weather info. Try again later.";
+      });
+  });
 }
 
 // Current time section
@@ -202,12 +227,8 @@ function populateProducts(productList) {
 }
 
 function productsHandler() {
-  let freeProducts = products.filter((item) => {
-    return item.price <= 0 || !item.price;
-  });
-  let paidProducts = products.filter((item) => {
-    return item.price > 0;
-  });
+  let freeProducts = products.filter((item) => item.price <= 0 || !item.price);
+  let paidProducts = products.filter((item) => item.price > 0);
 
   populateProducts(products);
 
@@ -233,6 +254,7 @@ function productsHandler() {
   });
 }
 
+// Footer section
 function footerHandler() {
   let currentYear = new Date().getFullYear();
   document.querySelector(
@@ -243,8 +265,10 @@ function footerHandler() {
 // Page load
 menuHandler();
 greetingHandler();
-weatherHandler();
+getWeatherForCurrentLocation();
 currentTimeHandler();
 imageGalleryHandler();
 productsHandler();
 footerHandler();
+
+//
